@@ -1,99 +1,112 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="bn">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>RS Live TV</title>
-    <link rel="shortcut icon" type="x-icon" href="https://i.postimg.cc/mD1VCt2C/RS-Live.png">
-    <link href="bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RS Live TV - বাংলা লাইভ টিভি</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="shortcut icon" href="https://i.postimg.cc/mD1VCt2C/RS-Live.png" type="image/x-icon">
 </head>
-
 <body>
-    <header class="header">
+    <!-- লোডিং স্পিনার -->
+    <div id="loadingSpinner">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">লোড হচ্ছে...</span>
+        </div>
+        <p class="mt-3">লাইভ স্ট্রিম প্রস্তুত হচ্ছে...</p>
+    </div>
+
+    <!-- হেডার -->
+    <header class="bg-dark py-3">
         <div class="container">
-            <a href="https://rslive-tv.github.io/web/">
-                <img src="https://i.postimg.cc/JzmYZZ0x/20241009-022307.png" alt="RS Live TV" class="logo">
-            </a>
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="/" class="navbar-brand">
+                    <img src="https://i.postimg.cc/JzmYZZ0x/20241009-022307.png" alt="RS Live TV" height="50">
+                </a>
+                <div class="language-switcher">
+                    <button class="btn btn-sm btn-outline-light active" id="bnLang">বাংলা</button>
+                    <button class="btn btn-sm btn-outline-light" id="enLang">English</button>
+                </div>
+            </div>
         </div>
     </header>
 
-    <div class="loading-spinner" id="loadingSpinner">
-        <div class="spinner"></div>
-        <p>Loading RS Live TV...</p>
-    </div>
-
-    <main class="container tv-area">
+    <!-- মেইন কন্টেন্ট -->
+    <main class="container my-4">
         <div class="row">
-            <div class="col-xs-12 col-md-10 tv-view">
-                <div class="embed-responsive embed-responsive-16by9">
-                    <iframe name="player" class="embed-responsive-item" allowfullscreen src="channel.html"></iframe>
+            <!-- মেইন প্লেয়ার -->
+            <div class="col-lg-9 col-md-8 mb-4">
+                <div class="card bg-dark text-white">
+                    <div class="card-header">
+                        <h5 id="nowPlayingText">এখন চলছে: ডেমো স্ট্রিম</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="ratio ratio-16x9">
+                            <iframe id="mainPlayer" src="player.html" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- মার্কিউ -->
+                <div class="alert alert-warning mt-3 mb-0">
+                    <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <span id="marqueeText">বাংলাদেশের সেরা লাইভ টিভি চ্যানেল। কোনো সমস্যা হলে আমাদের টেলিগ্রাম গ্রুপে জানান।</span>
+                    </marquee>
                 </div>
             </div>
             
-            <div class="col-xs-12 col-md-2 channel-list">
-                <h3 class="channel-list-title">Channels</h3>
-                <ul class="thumbnail-slider">
-                    <li><a href="javascript:void();" onclick="player.location.href='https://rslive-tv.github.io/Ekushe-Tv/'"><img src="https://i.postimg.cc/brWWZSpX/Ekushe.png" alt="Ekushe Tv"></a></li>
-                    <li><a href="javascript:void();" onclick="player.location.href='https://rslive-tv.github.io/Asian-Tv/'"><img src="https://i.postimg.cc/YSG4wRh9/Asian-Tv.png" alt="Asian Tv"></a></li>
-                    <li><a href="javascript:void();" onclick="player.location.href='https://rslive-tv.github.io/Deepto-/'"><img src="https://i.postimg.cc/DzLXX5FN/dipto.png" alt="Deepto Tv"></a></li>
-                    <li><a href="javascript:void();" onclick="player.location.href='https://rslive-tv.github.io/R-Tv/'"><img src="https://i.postimg.cc/T3rdjsLn/20241022-160649.png" alt="R Tv"></a></li>
-                    <li><a href="javascript:void();" onclick="player.location.href='https://rslive-tv.github.io/Rongeen/'"><img src="https://i.postimg.cc/25XNYzTg/20241022-182024.png" alt="Rongegn"></a></li>
-                    <li><a href="javascript:void();" onclick="player.location.href='https://rslive-tv.github.io/Gubbare-/'"><img src="https://i.postimg.cc/d0YHkDtz/20241022-161714.png" alt="Gubbare"></a></li>
-                    <li><a href="javascript:void();" onclick="player.location.href='https://rslive-tv.github.io/Star-Jalsha/'"><img src="https://i.postimg.cc/Jh4pmcn6/starjalsha.png" alt="STAR JALSHA"></a></li>
-                    <li><a href="javascript:void();" onclick="player.location.href='https://rslive-tv.github.io/Colours-Bangla-HD/'"><img src="https://i.postimg.cc/bJ4gQ7RW/colorsbangla.png" alt="COLOURS BANGLA"></a></li>
-                    <li><a href="javascript:void();" onclick="player.location.href='https://rslive-tv.github.io/Enter10-Bangla/'"><img src="https://i.postimg.cc/SxVGZ2rW/enter10bangla.png" alt="ENTER10BANGLA"></a></li>
-                    <li><a href="javascript:void();" onclick="player.location.href='https://rslive-tv.github.io/Zee-Bangla-HD/'"><img src="https://i.postimg.cc/bN90JD4K/zeebanglahd.png" alt="ZEE BANGLA HD"></a></li>
-                    <li><a href="javascript:void();" onclick="player.location.href='https://rslive-tv.github.io/Sangeet-Bangla-/'"><img src="https://i.postimg.cc/mkbD6DVH/Sangeet-Bangla.jpg" alt="SANGEET BANGLA"></a></li>
-                    <li><a href="javascript:void();" onclick="player.location.href='https://rslive-tv.github.io/Masti-Music-/'"><img src="https://i.postimg.cc/y6T5SzXD/masti-music.png" alt="Masti Music"></a></li>
-                    <li><a href="javascript:void();" onclick="player.location.href='https://rslive-tv.github.io/B4U-Music/'"><img src="https://i.postimg.cc/657C45XW/B4-U-Music.png" alt="B4U Music"></a></li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="marquee-container">
-            <div class="marquee yellow">
-                <marquee scrollamount="5" direction="left" onmouseover="this.stop()" onmouseout="this.start()">
-                    *** বর্তমানে আমাদের ওয়েব সাইট আপডেট চলছে, আপডেট চলাকালীন সময় কিছু চ্যানেল ডাউন হতে পারে। টিভি চ্যানেল প্লে হতে ৫ থেকে ১০ সেকেন্ড টাইম নিতে পারে, তবে সেটা সার্ভার ও আপনার ইন্টারনেটের উপর নির্ভর করবে। ⛔ আপনার মতামত জানাতে আমাদের টেলিগ্রাম গ্রুপে জয়েন করুন, এবং কোনো চ্যানেল প্লে না হলে সেটাও বলুন, ধন্যবাদ। ***
-                </marquee>
+            <!-- চ্যানেল লিস্ট -->
+            <div class="col-lg-3 col-md-4">
+                <div class="card bg-dark text-white">
+                    <div class="card-header">
+                        <h5 id="channelListText">চ্যানেল তালিকা</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="channel-list">
+                            <div class="channel-item active" data-stream="https://cdn.jwplayer.com/manifests/pZxWPRg4.m3u8" data-title="ডেমো চ্যানেল ১">
+                                <img src="https://via.placeholder.com/120x68/333333/FFFFFF?text=Channel+1" alt="Channel 1">
+                                <span>ডেমো চ্যানেল ১</span>
+                            </div>
+                            <div class="channel-item" data-stream="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" data-title="ডেমো চ্যানেল ২">
+                                <img src="https://via.placeholder.com/120x68/333333/FFFFFF?text=Channel+2" alt="Channel 2">
+                                <span>ডেমো চ্যানেল ২</span>
+                            </div>
+                            <!-- আরো চ্যানেল এখানে যোগ করুন -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- টেলিগ্রাম লিংক -->
+                <div class="card bg-primary text-white mt-3">
+                    <div class="card-body text-center">
+                        <a href="https://t.me/rslivetv" target="_blank" class="text-white text-decoration-none">
+                            <i class="fab fa-telegram fa-2x mb-2"></i>
+                            <h5 id="joinTelegramText">টেলিগ্রাম গ্রুপে যোগ দিন</h5>
+                            <p id="getUpdatesText">সর্বশেষ আপডেট পেতে</p>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <p>© Copyright 2024 || RS LIVE TV || Developed By: 
-                    <a href="https://t.me/m3u8livetv" target="_blank">Rubel Ahmed</a>
-                </p>
-                
-                <div class="telegram-box">
-                    <a href="https://t.me/rslivetv" class="telegram-link" target="_blank">
-                        <div class="telegram-card">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" class="telegram-icon">
-                            <div class="telegram-info">
-                                <h3>JOIN TELEGRAM</h3>
-                                <p>Get updates and support</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+    <!-- ফুটার -->
+    <footer class="bg-dark text-white py-3">
+        <div class="container text-center">
+            <p id="copyrightText">© 2024 RS Live TV - Developed by Rubel Ahmed</p>
+            <div class="social-links">
+                <a href="https://t.me/m3u8livetv" target="_blank" class="text-white me-2"><i class="fab fa-telegram"></i></a>
+                <a href="#" class="text-white me-2"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="text-white"><i class="fab fa-youtube"></i></a>
             </div>
         </div>
     </footer>
 
+    <!-- স্ক্রিপ্ট -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
-    <script>
-        // Hide loading spinner when page is fully loaded
-        window.addEventListener('load', function() {
-            document.getElementById('loadingSpinner').style.display = 'none';
-        });
-    </script>
 </body>
 </html>
