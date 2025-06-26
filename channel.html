@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+    <title>RUBEL LIVETV</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <script type="text/javascript" src="https://content.jwplatform.com/libraries/IDzF9Zmk.js"></script>
+    <script type="text/javascript">
+        jwplayer.key = "Khpp2dHxlBJHC8MCmLnBuV2jK/DwDnJMniwF6EO9HC/riJ712ZmbHg==";
+    </script>
+    <style>
+        html, body {
+            font-family: 'Poppins', sans-serif;
+            background: #000;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        #myElement {
+            position: relative;
+            width: 100% !important;
+            height: 100% !important;
+        }
+        
+        /* JWPlayer Custom Controls */
+        .jw-state-paused .jw-svg-icon-play path { display: none; }
+        .jw-state-paused .jw-svg-icon-play {
+            background-image: url(https://cdn.jsdelivr.net/gh/Hadi0609/JioTvAssets@v1.0/assets/jwp/play.svg);
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+        .jw-state-paused .jw-icon-playback:hover .jw-svg-icon-play {
+            background-image: url(https://cdn.jsdelivr.net/gh/Hadi0609/JioTvAssets@v1.0/assets/jwp/play-hover.svg);
+        }
+        
+        .jw-svg-icon-pause path { display: none; }
+        .jw-svg-icon-pause {
+            background-image: url(https://cdn.jsdelivr.net/gh/Hadi0609/JioTvAssets@v1.0/assets/jwp/pause.svg);
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+        .jw-icon-playback:hover .jw-svg-icon-pause {
+            background-image: url(https://cdn.jsdelivr.net/gh/Hadi0609/JioTvAssets@v1.0/assets/jwp/pause-hover.svg);
+        }
+        
+        /* Other control icons... (keep your existing icon styles) */
+        
+        #videoContainer {
+            position: absolute;
+            width: 100% !important;
+            height: 100% !important;
+        }
+        
+        /* Loading animation */
+        .jw-loading {
+            position: relative;
+        }
+        
+        .jw-loading:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 40px;
+            height: 40px;
+            margin: -20px 0 0 -20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #2f80ed;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div id="myElement"></div>
+    
+    <script type="text/javascript">
+        jwplayer("myElement").setup({
+            playlist: [{
+                sources: [{
+                    default: false,
+                    type: "hls",
+                    file: "https://d35j504z0x2vu2.cloudfront.net/v1/master/0bc8e8376bd8417a1b6761138aa41c26c7309312/mastiii/master.m3u8",
+                    label: "0"
+                }]
+            }],
+            primary: "html5",
+            hlshtml: true,
+            autostart: true,
+            aspectratio: "16:9",
+            image: "",
+            controls: true,
+            displaytitle: false,
+            stretching: "uniform",
+            width: "100%",
+            height: "100%"
+        }).on('ready', function() {
+            var video = document.getElementById(this.id).getElementsByTagName("video")[0];
+            if (video) {
+                video.setAttribute("poster", this.getConfig().image);
+            }
+        }).on('buffer', function() {
+            // Show buffering indicator
+            console.log("Buffering...");
+        }).on('play', function() {
+            // Hide parent loading spinner if exists
+            if (window.parent.document.getElementById('loadingSpinner')) {
+                window.parent.document.getElementById('loadingSpinner').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
