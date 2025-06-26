@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player - RS Live TV</title>
+    <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000;
+        }
+        #player-container {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="player-container"></div>
+
+    <script>
+        // URL থেকে স্ট্রিম লিংক পেতে
+        const urlParams = new URLSearchParams(window.location.search);
+        const streamUrl = urlParams.get('stream') || 'https://cdn.jwplayer.com/manifests/pZxWPRg4.m3u8';
+
+        // JW Player সেটআপ
+        jwplayer("player-container").setup({
+            file: streamUrl,
+            autostart: true,
+            width: "100%",
+            height: "100%",
+            stretching: "uniform",
+            controls: true,
+            displaytitle: false,
+            aspectratio: "16:9",
+            primary: "html5"
+        });
+
+        // প্যারেন্ট পেজকে লোডিং স্টেট জানানো
+        window.onload = function() {
+            if (window.parent) {
+                window.parent.postMessage('playerLoaded', '*');
+            }
+        };
+    </script>
+</body>
+</html>
