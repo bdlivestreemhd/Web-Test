@@ -1,66 +1,89 @@
-// Enhanced security and functionality
+// DOM লোড হওয়ার পর
+document.addEventListener('DOMContentLoaded', function() {
+    // লোডিং স্পিনার লুকাও
+    setTimeout(() => {
+        document.getElementById('loadingSpinner').style.display = 'none';
+    }, 1500);
 
-// Prevent right click and context menu
-document.addEventListener('contextmenu', function(e) {
-    e.preventDefault();
-    alert("চুরি করা মহাপাপ তাই সাবধান।🚫 কোড লাগলে আমার সাথে যোগাযোগ করেন");
-    return false;
-});
-
-// Disable keyboard shortcuts
-document.addEventListener('keydown', function(e) {
-    // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, Ctrl+U
-    if (e.key === "F12" || 
-        (e.ctrlKey && e.shiftKey && e.key === "I") || 
-        (e.ctrlKey && e.shiftKey && e.key === "J") ||
-        (e.ctrlKey && e.shiftKey && e.key === "C") ||
-        (e.ctrlKey && e.key === "u")) {
-        e.preventDefault();
-        alert("এই অপশনটি ডিজেবল করা আছে।");
-        return false;
-    }
+    // চ্যানেল পরিবর্তন
+    const channelItems = document.querySelectorAll('.channel-item');
+    const mainPlayer = document.getElementById('mainPlayer');
+    const nowPlayingText = document.getElementById('nowPlayingText');
     
-    // Disable Ctrl+C, Ctrl+V, Ctrl+X
-    if ((e.ctrlKey && e.key === "c") || 
-        (e.ctrlKey && e.key === "v") || 
-        (e.ctrlKey && e.key === "x")) {
-        e.preventDefault();
-        return false;
-    }
-});
-
-// Disable text selection
-document.addEventListener('selectstart', function(e) {
-    e.preventDefault();
-    return false;
-});
-
-// Disable drag and drop
-document.addEventListener('dragstart', function(e) {
-    e.preventDefault();
-    return false;
-});
-
-// Channel switching with loading indicator
-document.querySelectorAll('.thumbnail-slider a').forEach(link => {
-    link.addEventListener('click', function() {
-        const loadingSpinner = document.getElementById('loadingSpinner');
-        loadingSpinner.style.display = 'flex';
-        
-        // Hide spinner after a delay (in case iframe takes time to load)
-        setTimeout(() => {
-            loadingSpinner.style.display = 'none';
-        }, 3000);
+    channelItems.forEach(item => {
+        item.addEventListener('click', function() {
+            // অ্যাকটিভ ক্লাস আপডেট
+            channelItems.forEach(i => i.classList.remove('active'));
+            this.classList.add('active');
+            
+            // প্লেয়ার আপডেট
+            const streamUrl = this.getAttribute('data-stream');
+            const title = this.getAttribute('data-title');
+            
+            // প্লেয়ার পেজ রিলোড
+            mainPlayer.src = `player.html?stream=${encodeURIComponent(streamUrl)}`;
+            
+            // নাউ প্লেয়িং টেক্সট আপডেট
+            nowPlayingText.textContent = `এখন চলছে: ${title}`;
+        });
     });
+
+    // ভাষা পরিবর্তন
+    document.getElementById('bnLang').addEventListener('click', function() {
+        setLanguage('bn');
+        this.classList.add('active');
+        document.getElementById('enLang').classList.remove('active');
+    });
+
+    document.getElementById('enLang').addEventListener('click', function() {
+        setLanguage('en');
+        this.classList.add('active');
+        document.getElementById('bnLang').classList.remove('active');
+    });
+
+    // ডিফল্ট বাংলা ভাষা সেট
+    setLanguage('bn');
 });
 
-// Smooth scrolling for channel list
-document.querySelector('.channel-list').addEventListener('wheel', function(e) {
-    e.preventDefault();
-    this.scrollLeft += e.deltaY;
-});
+// ভাষা সেট করার ফাংশন
+function setLanguage(lang) {
+    const elements = {
+        'nowPlayingText': {
+            'bn': 'এখন চলছে: ডেমো স্ট্রিম',
+            'en': 'Now Playing: Demo Stream'
+        },
+        'channelListText': {
+            'bn': 'চ্যানেল তালিকা',
+            'en': 'Channel List'
+        },
+        'marqueeText': {
+            'bn': 'বাংলাদেশের সেরা লাইভ টিভি চ্যানেল। কোনো সমস্যা হলে আমাদের টেলিগ্রাম গ্রুপে জানান।',
+            'en': 'Best live TV channels in Bangladesh. Contact us on Telegram for support.'
+        },
+        'joinTelegramText': {
+            'bn': 'টেলিগ্রাম গ্রুপে যোগ দিন',
+            'en': 'Join Telegram Group'
+        },
+        'getUpdatesText': {
+            'bn': 'সর্বশেষ আপডেট পেতে',
+            'en': 'Get latest updates'
+        },
+        'copyrightText': {
+            'bn': '© ২০২৪ RS Live TV - ডেভেলপ করেছেন রুবেল আহমেদ',
+            'en': '© 2024 RS Live TV - Developed by Rubel Ahmed'
+        }
+    };
 
-// Show loading spinner when iframe is loading
-window.addEventListener('beforeunload', function() {
-    document.getElementById('loadingSpinner').style.display = 'flex';
+    for (const [id, texts] of Object.entries(elements)) {
+        document.getElementById(id).textContent = texts[lang];
+    }
+}
+
+// ডিভ টুলস ও রাইট ক্লিক ব্লক
+document.addEventListener('contextmenu', event => event.preventDefault());
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'F12' || (event.ctrlKey && event.shiftKey && event.key === 'I')) {
+        event.preventDefault();
+        alert('ডেভেলপার টুলস ব্যবহার অনুমোদিত নয়');
+    }
 });
